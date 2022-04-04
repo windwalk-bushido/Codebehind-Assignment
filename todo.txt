@@ -1,0 +1,11 @@
+[x2] {
+	Sort them by points
+	See if there's same number in the array
+	If yes, make new array with their goal difference & sort
+	See if there's same number in the array
+	If yes, make new array with their scored goals & sort
+	See if there's same number in the array
+	If yes, make new array with their rank difference & sort
+	See if there's same number in the array
+	Pick random winner...
+}
