@@ -1,7 +1,8 @@
 const main = () => {
-  function Team(name, rank) {
+  function Team(name, rank, group) {
     this.name = name;
     this.rank = rank;
+    this.group = group;
     this.wins = 0;
     this.draws = 0;
     this.loses = 0;
@@ -46,22 +47,32 @@ const main = () => {
     }
   }
 
-  function PrintMatchResults(team1, team2) {
-    console.log("\t" + team1 + " " + goals_1 + ":" + goals_2 + " " + team2);
+  function PrintGroupMatchResults(team1, team2) {
+    console.log("\t\t" + team1 + " " + goals_1 + ":" + goals_2 + " " + team2);
   }
 
   function PrintGroupResults(group) {
     for (let i = 0; i < group.length; i++) {
       console.log(
         "\n" +
+          (i + 1) +
+          ". " +
           group[i].name +
-          " ima " +
-          group[i].points +
-          " poena, sa odnos golova " +
+          " (" +
+          group[i].rank +
+          ")\t\t" +
+          group[i].wins +
+          "  " +
+          group[i].draws +
+          "  " +
+          group[i].loses +
+          "  " +
           group[i].goals_given +
           ":" +
           group[i].goals_received +
-          "... evaluacioni poeni su " +
+          "  " +
+          group[i].points +
+          "  " +
           group[i].evaluation_points
       );
     }
@@ -81,73 +92,102 @@ const main = () => {
     }
   }
 
-  let Katar = new Team("Katar", 11);
-  let Ekvador = new Team("Ekvador", 46);
-  let Senegal = new Team("Senegal", 20);
-  let Holandija = new Team("Holandija", 10);
+  function CalculateEvaluationPoints(group) {
+    let temp_array = [];
+    for (let i = 0; i < group.length; i++) {
+      group[i].evaluation_points =
+        group[i].points * 16 +
+        (group[i].goals_given - group[i].goals_received) * 2 +
+        group[i].goals_given * 0.25 +
+        group[i].rank * -0.03125;
+      if (group[i].evaluation_points < 0) {
+        group[i].evaluation_points = 0;
+      }
+      temp_array.unshift(group[i].evaluation_points);
+    }
+    return temp_array;
+  }
+
+  function PickGroupWinners(group, sorted_list) {
+    let group_winners = [];
+    group_winners[0] = FindTeam(group, sorted_list[0]);
+    group_winners[1] = FindTeam(group, sorted_list[1]);
+
+    return group_winners;
+  }
+
+  function ShiftGroup(group, sorted_list) {
+    let shifted_group = [];
+    for (let i = 0; i < group.length; i++) {
+      for (let y = 0; y < group.length; y++) {
+        if (sorted_list[i] === group[y].evaluation_points) {
+          shifted_group[i] = group[y];
+        }
+      }
+    }
+    return shifted_group;
+  }
+
+  function PrintGroupWinners(group) {
+    console.log("\nIz grupe " + group[0].group + " prolaze: " + group[0].name + ", " + group[1].name + ".\n");
+  }
+
+  // App
+
+  const Katar = new Team("Katar", 51, "A");
+  const Ekvador = new Team("Ekvador", 46, "A");
+  const Senegal = new Team("Senegal", 20, "A");
+  const Holandija = new Team("Holandija", 10, "A");
   let group_A = [Katar, Ekvador, Senegal, Holandija];
+
+  const Engleska = new Team("Engleska", 5, "B");
+  const Iran = new Team("Iran", 21, "B");
+  const SAD = new Team("SAD", 15, "B");
+  const Ukrajina = new Team("Ukrajina", 27, "B");
+  let group_B = [Engleska, Iran, SAD, Ukrajina];
 
   for (let i = 0; i < group_A.length; i++) {
     switch (i) {
       case 0:
-        console.log("\nGrupna faza - I kolo:\nGrupa A:");
+        console.log("\nGrupna faza - I kolo:\n\tGrupa A:");
         GetGoals();
         GameSimulation(group_A[0], group_A[1], goals_1, goals_2);
-        PrintMatchResults(group_A[0].name, group_A[1].name);
+        PrintGroupMatchResults(group_A[0].name, group_A[1].name);
 
         GetGoals();
         GameSimulation(group_A[2], group_A[3], goals_1, goals_2);
-        PrintMatchResults(group_A[2].name, group_A[3].name);
+        PrintGroupMatchResults(group_A[2].name, group_A[3].name);
         break;
       case 1:
-        console.log("\nGrupna faza - II kolo:\nGrupa A:");
+        console.log("\nGrupna faza - II kolo:\n\tGrupa A:");
         GetGoals();
         GameSimulation(group_A[0], group_A[3], goals_1, goals_2);
-        PrintMatchResults(group_A[0].name, group_A[3].name);
+        PrintGroupMatchResults(group_A[0].name, group_A[3].name);
 
         GetGoals();
         GameSimulation(group_A[1], group_A[2], goals_1, goals_2);
-        PrintMatchResults(group_A[1].name, group_A[2].name);
+        PrintGroupMatchResults(group_A[1].name, group_A[2].name);
         break;
       case 2:
-        console.log("\nGrupna faza - III kolo:\nGrupa A:");
+        console.log("\nGrupna faza - III kolo:\n\tGrupa A:");
         GetGoals();
         GameSimulation(group_A[0], group_A[2], goals_1, goals_2);
-        PrintMatchResults(group_A[0].name, group_A[2].name);
+        PrintGroupMatchResults(group_A[0].name, group_A[2].name);
 
         GetGoals();
         GameSimulation(group_A[1], group_A[3], goals_1, goals_2);
-        PrintMatchResults(group_A[1].name, group_A[3].name);
+        PrintGroupMatchResults(group_A[1].name, group_A[3].name);
         break;
     }
   }
 
-  let temp_array = [];
-  for (let i = 0; i < group_A.length; i++) {
-    group_A[i].evaluation_points =
-      group_A[i].points * 16 + (group_A[i].goals_given - group_A[i].goals_received) * 2 + group_A[i].goals_given;
-    if (group_A[i].evaluation_points < 0) {
-      group_A[i].evaluation_points = 0;
-    }
-    temp_array.unshift(group_A[i].evaluation_points);
-  }
+  let list_of_eval_points = CalculateEvaluationPoints(group_A);
+  let sorted_list = SortArray(list_of_eval_points);
+  group_A = ShiftGroup(group_A, sorted_list);
+
+  let group_A_winners = PickGroupWinners(group_A, sorted_list);
   PrintGroupResults(group_A);
-
-  let sorted_array = SortArray(temp_array);
-
-  /*
-  console.log("\n");
-  console.log(sorted_array);
-  console.log("\n");
-  */
-
-  let group_A_winners = [];
-  group_A_winners[0] = FindTeam(group_A, sorted_array[0]);
-  group_A_winners[1] = FindTeam(group_A, sorted_array[1]);
-
-  console.log("\n");
-  console.log(group_A_winners);
-  console.log("\n");
+  PrintGroupWinners(group_A_winners);
 };
 
 main();

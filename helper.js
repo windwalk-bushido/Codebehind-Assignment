@@ -21,16 +21,6 @@ function DecideWinner(team1, team2) {
 }
 
 /*
-  let Katar = new Team("Katar", 11);
-  let Ekvador = new Team("Ekvador", 46);
-  let Senegal = new Team("Senegal", 20);
-  let Holandija = new Team("Holandija", 10);
-
-  let Engleska = new Team("Engleska", 46);
-  let Iran = new Team("Iran", 46);
-  let SAD = new Team("SAD", 46);
-  let Ukrajina = new Team("Ukrajina", 46);
-
   let Argentina = new Team("Argentina", 46);
   let Saudijska_Arabija = new Team("Saudijska Arabija", 46);
   let Meksiko = new Team("Meksiko", 46);
@@ -61,12 +51,6 @@ function DecideWinner(team1, team2) {
   let Danska = new Team("Danska", 46);
   let Tunis = new Team("Tunis", 46);
   */
-
-function SortArray(array) {
-  return array.sort(function (a, b) {
-    return b - a;
-  });
-}
 
 function FindTeam(group, target, type) {
   for (let i = 0; i < group.length; i++) {
