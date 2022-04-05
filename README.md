@@ -1,7 +1,7 @@
 # Assignment
 
 ```
-Napisati javascript program za simulaciju svetskog prvenstva u fudbalu.
+Napisati JavaScript program za simulaciju svetskog prvenstva u fudbalu.
 
 Napraviti grupe po uzoru na žreb za svetsko prvenstvo u Kataru 2022.
 

@@ -12,8 +12,8 @@ const main = () => {
     this.evaluation_points = 0;
   }
 
-  let goals_1 = null;
-  let goals_2 = null;
+  let goals_for_team_1 = null;
+  let goals_for_team_2 = null;
 
   function GetGoals() {
     function RandomNumber() {
@@ -22,20 +22,21 @@ const main = () => {
       return Math.floor(Math.random() * (max - min) + min);
     }
 
-    goals_1 = RandomNumber();
-    goals_2 = RandomNumber();
+    goals_for_team_1 = RandomNumber();
+    goals_for_team_2 = RandomNumber();
   }
 
-  function SimulateMatch(team1, team2, goals4team1, goals4team2) {
-    team1.goals_given += goals4team1;
-    team1.goals_received += goals4team2;
-    team2.goals_given += goals4team2;
-    team2.goals_received += goals4team1;
-    if (goals4team1 > goals4team2) {
+  function SimulateMatch(team1, team2) {
+    team1.goals_given += goals_for_team_1;
+    team1.goals_received += goals_for_team_2;
+    team2.goals_given += goals_for_team_2;
+    team2.goals_received += goals_for_team_1;
+
+    if (goals_for_team_1 > goals_for_team_2) {
       team1.points += 3;
       team1.wins += 1;
       team2.loses += 1;
-    } else if (goals4team1 === goals4team2) {
+    } else if (goals_for_team_1 === goals_for_team_2) {
       team1.points += 1;
       team1.draws += 1;
       team2.points += 1;
@@ -47,8 +48,8 @@ const main = () => {
     }
   }
 
-  function PrintGroupMatchResults(team1, team2) {
-    console.log("\t\t" + team1 + " " + goals_1 + ":" + goals_2 + " " + team2);
+  function PrintGroupMatchResult(team1, team2) {
+    console.log("\t\t" + team1 + "\t" + goals_for_team_1 + ":" + goals_for_team_2 + "\t" + team2);
   }
 
   function SimulateGroupMatches(group, round) {
@@ -56,44 +57,45 @@ const main = () => {
     switch (round) {
       case 0:
         GetGoals();
-        SimulateMatch(group[0], group[1], goals_1, goals_2);
-        PrintGroupMatchResults(group[0].name, group[1].name);
+        SimulateMatch(group[0], group[1]);
+        PrintGroupMatchResult(group[0].name, group[1].name);
 
         GetGoals();
-        SimulateMatch(group[2], group[3], goals_1, goals_2);
-        PrintGroupMatchResults(group[2].name, group[3].name);
+        SimulateMatch(group[2], group[3]);
+        PrintGroupMatchResult(group[2].name, group[3].name);
         break;
       case 1:
         GetGoals();
-        SimulateMatch(group[0], group[3], goals_1, goals_2);
-        PrintGroupMatchResults(group[0].name, group[3].name);
+        SimulateMatch(group[0], group[3]);
+        PrintGroupMatchResult(group[0].name, group[3].name);
 
         GetGoals();
-        SimulateMatch(group[1], group[2], goals_1, goals_2);
-        PrintGroupMatchResults(group[1].name, group[2].name);
+        SimulateMatch(group[1], group[2]);
+        PrintGroupMatchResult(group[1].name, group[2].name);
         break;
       case 2:
         GetGoals();
-        SimulateMatch(group[0], group[2], goals_1, goals_2);
-        PrintGroupMatchResults(group[0].name, group[2].name);
+        SimulateMatch(group[0], group[2]);
+        PrintGroupMatchResult(group[0].name, group[2].name);
 
         GetGoals();
-        SimulateMatch(group[1], group[3], goals_1, goals_2);
-        PrintGroupMatchResults(group[1].name, group[3].name);
+        SimulateMatch(group[1], group[3]);
+        PrintGroupMatchResult(group[1].name, group[3].name);
         break;
     }
+    console.log("\n");
   }
 
   function PrintGroupResults(group) {
     for (let i = 0; i < group.length; i++) {
       console.log(
-        "\t" +
+        "\t\t" +
           (i + 1) +
           ". " +
           group[i].name +
           " (" +
           group[i].rank +
-          ")\t\t" +
+          ")\t" +
           group[i].wins +
           "  " +
           group[i].draws +
@@ -158,77 +160,112 @@ const main = () => {
     return shifted_group;
   }
 
-  function PrintGroupWinners(group) {
-    console.log("\nIz grupe " + group[0].group + " prolaze: " + group[0].name + ", " + group[1].name);
-  }
-
   function RoundupResults(group, winners_group) {
     list_of_eval_points = CalculateEvaluationPoints(group);
     sorted_list = SortArray(list_of_eval_points);
+
     group = ShiftGroup(group, sorted_list);
     winners_group = PickGroupWinners(group, sorted_list);
-    console.log("\n\nGrupa " + group[0].group);
+
+    // Zbog boljeg formatiranja
+    if (group[0].group === "A") {
+      console.log("\n\tGrupa " + group[0].group);
+    } else {
+      console.log("\n\n\tGrupa " + group[0].group);
+    }
     PrintGroupResults(group);
-    PrintGroupWinners(winners_group);
+
     winners_group[0].group += "1";
     winners_group[1].group += "2";
     return winners_group;
   }
 
-  // App
+  function PrintMatchResult(team1, team2) {
+    console.log(
+      "\t(" +
+        team1.group +
+        ") " +
+        team1.name +
+        "\t" +
+        goals_for_team_1 +
+        ":" +
+        goals_for_team_2 +
+        "\t" +
+        team2.name +
+        " (" +
+        team2.group +
+        ")"
+    );
+  }
 
-  const Katar = new Team("Katar", 51, "A");
-  const Ekvador = new Team("Ekvador", 46, "A");
-  const Senegal = new Team("Senegal", 20, "A");
-  const Holandija = new Team("Holandija", 10, "A");
+  function SimulateGame(team1, team2) {
+    while (goals_for_team_1 !== goals_for_team_2) {
+      GetGoals();
+    }
+    PrintMatchResult(team1, team2);
+
+    if (goals_for_team_1 > goals_for_team_2) {
+      return team1;
+    } else {
+      return team2;
+    }
+  }
+
+  // MAIN APP
+
+  // Zbog boljeg formatiranja imena imaju razmak u imenu
+  const Katar = new Team("Katar            ", 51, "A");
+  const Ekvador = new Team("Ekvador          ", 46, "A");
+  const Senegal = new Team("Senegal          ", 20, "A");
+  const Holandija = new Team("Holandija        ", 10, "A");
   let group_A = [Katar, Ekvador, Senegal, Holandija];
 
-  const Engleska = new Team("Engleska", 5, "B");
-  const Iran = new Team("Iran", 21, "B");
-  const SAD = new Team("SAD", 15, "B");
-  const Ukrajina = new Team("Ukrajina", 27, "B");
+  const Engleska = new Team("Engleska         ", 5, "B");
+  const Iran = new Team("Iran             ", 21, "B");
+  const SAD = new Team("SAD              ", 15, "B");
+  const Ukrajina = new Team("Ukrajina         ", 27, "B");
   let group_B = [Engleska, Iran, SAD, Ukrajina];
 
-  const Argentina = new Team("Argentina", 4, "C");
+  const Argentina = new Team("Argentina        ", 4, "C");
   const Saudijska_Arabija = new Team("Saudijska Arabija", 49, "C");
-  const Meksiko = new Team("Meksiko", 9, "C");
-  const Poljska = new Team("Poljska", 26, "C");
+  const Meksiko = new Team("Meksiko          ", 9, "C");
+  const Poljska = new Team("Poljska          ", 26, "C");
   let group_C = [Argentina, Saudijska_Arabija, Meksiko, Poljska];
 
-  const Francuska = new Team("Francuska", 3, "D");
-  const Peru = new Team("Peru", 22, "D");
-  const Danska = new Team("Danska", 11, "D");
-  const Tunis = new Team("Tunis", 35, "D");
+  const Francuska = new Team("Francuska        ", 3, "D");
+  const Peru = new Team("Peru             ", 22, "D");
+  const Danska = new Team("Danska           ", 11, "D");
+  const Tunis = new Team("Tunis            ", 35, "D");
   let group_D = [Francuska, Peru, Danska, Tunis];
 
-  const Spanija = new Team("Spanija", 7, "E");
-  const Novi_Zeland = new Team("Novi Zeland", 101, "E");
-  const Nemacka = new Team("Nemacka", 12, "E");
-  const Japan = new Team("Japan", 23, "E");
+  const Spanija = new Team("Spanija          ", 7, "E");
+  const Novi_Zeland = new Team("Novi Zeland      ", 101, "E");
+  const Nemacka = new Team("Nemacka          ", 12, "E");
+  const Japan = new Team("Japan            ", 23, "E");
   let group_E = [Spanija, Novi_Zeland, Nemacka, Japan];
 
-  const Belgija = new Team("Belgija", 2, "F");
-  const Kanada = new Team("Kanada", 38, "F");
-  const Maroko = new Team("Maroko", 24, "F");
-  const Hrvatska = new Team("Hrvatska", 16, "F");
+  const Belgija = new Team("Belgija          ", 2, "F");
+  const Kanada = new Team("Kanada           ", 38, "F");
+  const Maroko = new Team("Maroko           ", 24, "F");
+  const Hrvatska = new Team("Hrvatska         ", 16, "F");
   let group_F = [Belgija, Kanada, Maroko, Hrvatska];
 
-  const Brazil = new Team("Brazil", 1, "G");
-  const Srbija = new Team("Srbija", 25, "G");
-  const Svajcarska = new Team("Svajcarska", 14, "G");
-  const Kamerun = new Team("Kamerun", 37, "G");
+  const Brazil = new Team("Brazil           ", 1, "G");
+  const Srbija = new Team("Srbija           ", 25, "G");
+  const Svajcarska = new Team("Svajcarska       ", 14, "G");
+  const Kamerun = new Team("Kamerun          ", 37, "G");
   let group_G = [Brazil, Srbija, Svajcarska, Kamerun];
 
-  const Portugal = new Team("Portugal", 8, "H");
-  const Gana = new Team("Gana", 60, "H");
-  const Urugvaj = new Team("Urugvaj", 13, "H");
-  const Juzna_Koreja = new Team("Juzna Koreja", 29, "H");
+  const Portugal = new Team("Portugal         ", 8, "H");
+  const Gana = new Team("Gana             ", 60, "H");
+  const Urugvaj = new Team("Urugvaj          ", 13, "H");
+  const Juzna_Koreja = new Team("Juzna Koreja     ", 29, "H");
   let group_H = [Portugal, Gana, Urugvaj, Juzna_Koreja];
 
   for (let i = 0; i < 3; i++) {
     switch (i) {
       case 0:
-        console.log("\nGrupna faza - I kolo:");
+        console.log("\nGrupna faza - I kolo:\n");
         SimulateGroupMatches(group_A, i);
         SimulateGroupMatches(group_B, i);
         SimulateGroupMatches(group_C, i);
@@ -239,7 +276,7 @@ const main = () => {
         SimulateGroupMatches(group_H, i);
         break;
       case 1:
-        console.log("\nGrupna faza - II kolo:");
+        console.log("\n\nGrupna faza - II kolo:\n");
         SimulateGroupMatches(group_A, i);
         SimulateGroupMatches(group_B, i);
         SimulateGroupMatches(group_C, i);
@@ -250,7 +287,7 @@ const main = () => {
         SimulateGroupMatches(group_H, i);
         break;
       case 2:
-        console.log("\nGrupna faza - III kolo:");
+        console.log("\n\nGrupna faza - III kolo:\n");
         SimulateGroupMatches(group_A, i);
         SimulateGroupMatches(group_B, i);
         SimulateGroupMatches(group_C, i);
@@ -262,6 +299,10 @@ const main = () => {
         break;
     }
   }
+
+  // Resetuje golove na nulu da se ne bi u sledecoj fazi takmicenja preneli rezultati od zadnje utakmice
+  goals_for_team_1 = 0;
+  goals_for_team_2 = 0;
 
   let group_A_winners = [];
   let group_B_winners = [];
@@ -275,8 +316,7 @@ const main = () => {
   let list_of_eval_points = [];
   let sorted_list = [];
 
-  console.log("\nKraj grupne faze...");
-
+  console.log("\n\nKraj grupne faze. Stanje na tabeli po grupama:");
   for (let i = 0; i < 8; i++) {
     switch (i) {
       case 0:
@@ -302,6 +342,43 @@ const main = () => {
         break;
       case 7:
         group_H_winners = RoundupResults(group_H, group_H_winners);
+        break;
+    }
+  }
+
+  let quarter_finalists = [];
+  let semi_finalists = [];
+  let finalists = [];
+
+  for (let i = 0; i < 4; i++) {
+    switch (i) {
+      case 0:
+        console.log("\n\n\n\nEliminaciona faza - osmina finala:\n");
+        quarter_finalists.push(SimulateGame(group_A_winners[0], group_E_winners[0]));
+        quarter_finalists.push(SimulateGame(group_A_winners[1], group_E_winners[1]));
+        quarter_finalists.push(SimulateGame(group_B_winners[0], group_F_winners[0]));
+        quarter_finalists.push(SimulateGame(group_B_winners[1], group_F_winners[1]));
+        quarter_finalists.push(SimulateGame(group_C_winners[0], group_G_winners[0]));
+        quarter_finalists.push(SimulateGame(group_C_winners[1], group_G_winners[1]));
+        quarter_finalists.push(SimulateGame(group_D_winners[0], group_H_winners[0]));
+        quarter_finalists.push(SimulateGame(group_D_winners[1], group_H_winners[1]));
+        break;
+      case 1:
+        console.log("\n\nEliminaciona faza - cetvrt-finale:\n");
+        semi_finalists.push(SimulateGame(quarter_finalists[0], quarter_finalists[4]));
+        semi_finalists.push(SimulateGame(quarter_finalists[1], quarter_finalists[5]));
+        semi_finalists.push(SimulateGame(quarter_finalists[2], quarter_finalists[6]));
+        semi_finalists.push(SimulateGame(quarter_finalists[3], quarter_finalists[7]));
+        break;
+      case 2:
+        console.log("\n\nEliminaciona faza - polufinale:\n");
+        finalists.push(SimulateGame(semi_finalists[0], semi_finalists[2]));
+        finalists.push(SimulateGame(semi_finalists[1], semi_finalists[3]));
+        break;
+      case 3:
+        console.log("\n\nEliminaciona faza - finale:\n");
+        let winner = SimulateGame(finalists[0], finalists[1]);
+        console.log("\n\nPobednik:\n\t" + winner.name + "\n");
         break;
     }
   }
