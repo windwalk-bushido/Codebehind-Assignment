@@ -87,7 +87,21 @@ const main = () => {
   }
 
   function PrintGroupResults(group) {
+    let goals_given = "";
+    let goals_received = "";
     for (let i = 0; i < group.length; i++) {
+      // Zbog boljeg formatiranja
+      if (group[i].goals_given < 10) {
+        goals_given = "0" + group[i].goals_given.toString();
+      } else {
+        goals_given = group[i].goals_given;
+      }
+      if (group[i].goals_received < 10) {
+        goals_received = "0" + group[i].goals_received.toString();
+      } else {
+        goals_received = group[i].goals_received;
+      }
+
       console.log(
         "\t\t" +
           (i + 1) +
@@ -102,9 +116,9 @@ const main = () => {
           "  " +
           group[i].loses +
           "  " +
-          group[i].goals_given +
+          goals_given +
           ":" +
-          group[i].goals_received +
+          goals_received +
           "  " +
           group[i].points
       );
@@ -199,9 +213,9 @@ const main = () => {
   }
 
   function SimulateGame(team1, team2) {
-    while (goals_for_team_1 !== goals_for_team_2) {
+    do {
       GetGoals();
-    }
+    } while (goals_for_team_1 === goals_for_team_2);
     PrintMatchResult(team1, team2);
 
     if (goals_for_team_1 > goals_for_team_2) {
