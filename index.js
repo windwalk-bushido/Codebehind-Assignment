@@ -13,83 +13,103 @@ const main = () => {
   }
 
   // Zbog boljeg formatiranja imena imaju razmak u imenu
-  const Katar = new Team("Katar            ", 51, "A");
-  const Ekvador = new Team("Ekvador          ", 46, "A");
-  const Senegal = new Team("Senegal          ", 20, "A");
-  const Holandija = new Team("Holandija        ", 10, "A");
+  const Katar = new Team("Katar               ", 51, "A");
+  const Ekvador = new Team("Ekvador             ", 46, "A");
+  const Senegal = new Team("Senegal             ", 20, "A");
+  const Holandija = new Team("Holandija           ", 10, "A");
   let group_A = [Katar, Ekvador, Senegal, Holandija];
 
-  const Engleska = new Team("Engleska         ", 5, "B");
-  const Iran = new Team("Iran             ", 21, "B");
-  const SAD = new Team("SAD              ", 15, "B");
-  const Ukrajina = new Team("Ukrajina         ", 27, "B");
+  const Engleska = new Team("Engleska            ", 5, "B");
+  const Iran = new Team("Iran                ", 21, "B");
+  const SAD = new Team("SAD                 ", 15, "B");
+  const Ukrajina = new Team("Ukrajina            ", 27, "B");
   let group_B = [Engleska, Iran, SAD, Ukrajina];
 
-  const Argentina = new Team("Argentina        ", 4, "C");
-  const Saudijska_Arabija = new Team("Saudijska Arabija", 49, "C");
-  const Meksiko = new Team("Meksiko          ", 9, "C");
-  const Poljska = new Team("Poljska          ", 26, "C");
+  const Argentina = new Team("Argentina           ", 4, "C");
+  const Saudijska_Arabija = new Team("Saudijska Arabija   ", 49, "C");
+  const Meksiko = new Team("Meksiko             ", 9, "C");
+  const Poljska = new Team("Poljska             ", 26, "C");
   let group_C = [Argentina, Saudijska_Arabija, Meksiko, Poljska];
 
-  const Francuska = new Team("Francuska        ", 3, "D");
-  const Peru = new Team("Peru             ", 22, "D");
-  const Danska = new Team("Danska           ", 11, "D");
-  const Tunis = new Team("Tunis            ", 35, "D");
+  const Francuska = new Team("Francuska           ", 3, "D");
+  const Peru = new Team("Peru                ", 22, "D");
+  const Danska = new Team("Danska              ", 11, "D");
+  const Tunis = new Team("Tunis               ", 35, "D");
   let group_D = [Francuska, Peru, Danska, Tunis];
 
-  const Spanija = new Team("Spanija          ", 7, "E");
-  const Novi_Zeland = new Team("Novi Zeland      ", 101, "E");
-  const Nemacka = new Team("Nemacka          ", 12, "E");
-  const Japan = new Team("Japan            ", 23, "E");
+  const Spanija = new Team("Spanija             ", 7, "E");
+  const Novi_Zeland = new Team("Novi Zeland         ", 101, "E");
+  const Nemacka = new Team("Nemacka             ", 12, "E");
+  const Japan = new Team("Japan               ", 23, "E");
   let group_E = [Spanija, Novi_Zeland, Nemacka, Japan];
 
-  const Belgija = new Team("Belgija          ", 2, "F");
-  const Kanada = new Team("Kanada           ", 38, "F");
-  const Maroko = new Team("Maroko           ", 24, "F");
-  const Hrvatska = new Team("Hrvatska         ", 16, "F");
+  const Belgija = new Team("Belgija             ", 2, "F");
+  const Kanada = new Team("Kanada              ", 38, "F");
+  const Maroko = new Team("Maroko              ", 24, "F");
+  const Hrvatska = new Team("Hrvatska            ", 16, "F");
   let group_F = [Belgija, Kanada, Maroko, Hrvatska];
 
-  const Brazil = new Team("Brazil           ", 1, "G");
-  const Srbija = new Team("Srbija           ", 25, "G");
-  const Svajcarska = new Team("Svajcarska       ", 14, "G");
-  const Kamerun = new Team("Kamerun          ", 37, "G");
+  const Brazil = new Team("Brazil              ", 1, "G");
+  const Srbija = new Team("Srbija              ", 25, "G");
+  const Svajcarska = new Team("Svajcarska          ", 14, "G");
+  const Kamerun = new Team("Kamerun             ", 37, "G");
   let group_G = [Brazil, Srbija, Svajcarska, Kamerun];
 
-  const Portugal = new Team("Portugal         ", 8, "H");
-  const Gana = new Team("Gana             ", 60, "H");
-  const Urugvaj = new Team("Urugvaj          ", 13, "H");
-  const Juzna_Koreja = new Team("Juzna Koreja     ", 29, "H");
+  const Portugal = new Team("Portugal            ", 8, "H");
+  const Gana = new Team("Gana                ", 60, "H");
+  const Urugvaj = new Team("Urugvaj             ", 13, "H");
+  const Juzna_Koreja = new Team("Juzna Koreja        ", 29, "H");
   let group_H = [Portugal, Gana, Urugvaj, Juzna_Koreja];
 
   function RandomNumber(min, max) {
-    return Math.floor(Math.random() * (max - min) + min);
+    return Math.floor(Math.random() * (max - min + 1) + min);
   }
 
   let goals_for_team_1 = null;
+  let goals_for_team_1_on_half_time = null;
   let goals_for_team_2 = null;
+  let goals_for_team_2_on_half_time = null;
 
   function GetGoals() {
-    // Ne zelim da vredjam nijedan tim zato sto je maksimum broj golova osam ali ovo je samo zbog jednostavnosti...
-    goals_for_team_1 = RandomNumber(0, 9);
-    goals_for_team_2 = RandomNumber(0, 9);
+    // Ne zelim da vredjam nijedan tim zato sto je maksimum broj golova osam ali ovo je samo zbog jednostavnosti ;)
+    goals_for_team_1 = RandomNumber(0, 5);
+    goals_for_team_1_on_half_time = RandomNumber(0, 5);
+    goals_for_team_2 = RandomNumber(0, 5);
+    goals_for_team_2_on_half_time = RandomNumber(0, 5);
   }
 
   function PrintGroupMatchResult(team1, team2) {
-    console.log("\t\t" + team1 + "\t" + goals_for_team_1 + ":" + goals_for_team_2 + "\t" + team2);
+    console.log(
+      "\t\t" +
+        team1 +
+        "\t" +
+        (goals_for_team_1 + goals_for_team_1_on_half_time) +
+        ":" +
+        (goals_for_team_2 + goals_for_team_2_on_half_time) +
+        "\t" +
+        team2 +
+        "\t" +
+        goals_for_team_1_on_half_time +
+        ":" +
+        goals_for_team_2_on_half_time +
+        " na poluvremenu"
+    );
   }
 
   function SimulateGroupMatch(team1, team2) {
     GetGoals();
-    team1.goals_given += goals_for_team_1;
-    team1.goals_received += goals_for_team_2;
-    team2.goals_given += goals_for_team_2;
-    team2.goals_received += goals_for_team_1;
+    let team1_result = goals_for_team_1 + goals_for_team_1_on_half_time;
+    let team2_result = goals_for_team_2 + goals_for_team_2_on_half_time;
+    team1.goals_given += team1_result;
+    team1.goals_received += team2_result;
+    team2.goals_given += team2_result;
+    team2.goals_received += team1_result;
 
-    if (goals_for_team_1 > goals_for_team_2) {
+    if (team1_result > team2_result) {
       team1.points += 3;
       team1.wins += 1;
       team2.loses += 1;
-    } else if (goals_for_team_1 === goals_for_team_2) {
+    } else if (team1_result === team2_result) {
       team1.points += 1;
       team1.draws += 1;
       team2.points += 1;
@@ -153,6 +173,8 @@ const main = () => {
   // Resetuje golove na nulu da se ne bi u sledecoj fazi takmicenja preneli rezultati od zadnje utakmice
   goals_for_team_1 = 0;
   goals_for_team_2 = 0;
+  goals_for_team_1_on_half_time = 0;
+  goals_for_team_2_on_half_time = 0;
 
   // Posto nisam uspeo da razumem kako da resim "medjusobni duel" faktor a pod "opciono" stoji da timski rang povecava sansu za pobedu, smislio sam ovaj evaluacioni sistem koji radi po svim tim kriterijumima (po uzoru na AI)
   function CalculateEvaluationPoints(group) {
@@ -305,59 +327,86 @@ const main = () => {
     }
   }
 
-  function PrintMatchResult(team1, team2) {
-    console.log(
-      "\t\t(" +
-        team1.group +
-        ") " +
-        team1.name +
-        "\t" +
-        goals_for_team_1 +
-        ":" +
-        goals_for_team_2 +
-        "\t" +
-        team2.name +
-        " (" +
-        team2.group +
-        ")"
-    );
+  function PrintMatchResult(team1, team2, game_ended) {
+    if (game_ended === "penalties") {
+      console.log(
+        "\t\t(" +
+          team1.group +
+          ") " +
+          team1.name +
+          "\t" +
+          goals_for_team_1 +
+          ":" +
+          goals_for_team_2 +
+          "\t" +
+          team2.name +
+          " (" +
+          team2.group +
+          ")\t\tpobeda na penalima..."
+      );
+    } else {
+      console.log(
+        "\t\t(" +
+          team1.group +
+          ") " +
+          team1.name +
+          "\t" +
+          (goals_for_team_1 + goals_for_team_1_on_half_time) +
+          ":" +
+          (goals_for_team_2 + goals_for_team_2_on_half_time) +
+          "\t" +
+          team2.name +
+          " (" +
+          team2.group +
+          ")\t\t" +
+          goals_for_team_1_on_half_time +
+          ":" +
+          goals_for_team_2_on_half_time +
+          " na poluvremenu"
+      );
+    }
+  }
+
+  function SimulatePenalties() {
+    goals_for_team_1 = 0;
+    goals_for_team_2 = 0;
+    let team1_score = 0;
+    let team2_score = 0;
+    let run_while_loop = true;
+    while (run_while_loop) {
+      goals_for_team_1 = RandomNumber(0, 1);
+      goals_for_team_2 = RandomNumber(0, 1);
+      if (goals_for_team_1 === 1) {
+        team1_score++;
+      }
+      if (goals_for_team_2 === 1) {
+        team2_score++;
+      }
+      if (team1_score - team2_score === 2 || team1_score - team2_score === -2) {
+        run_while_loop = false;
+      }
+    }
+    goals_for_team_1 = team1_score;
+    goals_for_team_2 = team2_score;
   }
 
   function SimulateGame(team1, team2) {
-    do {
-      GetGoals();
-    } while (goals_for_team_1 === goals_for_team_2);
-    PrintMatchResult(team1, team2);
+    GetGoals();
+    let team1_result = goals_for_team_1 + goals_for_team_1_on_half_time;
+    let team2_result = goals_for_team_2 + goals_for_team_2_on_half_time;
+    if (team1_result === team2_result) {
+      SimulatePenalties();
+      PrintMatchResult(team1, team2, "penalties");
+      team1_result = goals_for_team_1;
+      team2_result = goals_for_team_2;
+    } else {
+      PrintMatchResult(team1, team2, "normal");
+    }
 
-    if (goals_for_team_1 > goals_for_team_2) {
+    if (team1_result > team2_result) {
       return team1;
     } else {
       return team2;
-    }
-  }
-
-  function EliminationPhaseRound() {
-    function GetTwoRandomGroups() {
-      do {
-        group_picker_1 = RandomNumber(0, winners.length - 1);
-        group_picker_2 = RandomNumber(0, winners.length - 1);
-      } while (group_picker_1 === group_picker_2);
-    }
-
-    let group_picker_1 = 0;
-    let group_picker_2 = 0;
-
-    for (let i = 0; i < 4; i++) {
-      if (i < 3) {
-        GetTwoRandomGroups();
-        quarter_finalists.push(SimulateGame(winners[group_picker_1][0], winners[group_picker_2][1]));
-        quarter_finalists.push(SimulateGame(winners[group_picker_1][1], winners[group_picker_2][0]));
-        winners.splice(group_picker_1, 1);
-        winners.splice(group_picker_2, 1);
-      } else {
-        quarter_finalists.push(SimulateGame(winners[0][0], winners[1][1]));
-        quarter_finalists.push(SimulateGame(winners[0][1], winners[1][0]));
-      }
     }
   }
 
@@ -367,15 +416,16 @@ const main = () => {
     }
   }
 
-  let winners = [];
-  winners.push(group_A_winners);
-  winners.push(group_B_winners);
-  winners.push(group_C_winners);
-  winners.push(group_D_winners);
-  winners.push(group_E_winners);
-  winners.push(group_F_winners);
-  winners.push(group_G_winners);
-  winners.push(group_H_winners);
+  let winners = [
+    group_A_winners,
+    group_B_winners,
+    group_C_winners,
+    group_D_winners,
+    group_E_winners,
+    group_F_winners,
+    group_G_winners,
+    group_H_winners,
+  ];
 
   let quarter_finalists = [];
   let semi_finalists = [];
@@ -386,7 +436,10 @@ const main = () => {
     switch (i) {
       case 0:
         console.log("\tOsmina finala:\n");
-        EliminationPhaseRound();
+        for (let i = 0; i < 8; i += 2) {
+          quarter_finalists.push(SimulateGame(winners[i][0], winners[i + 1][1]));
+          quarter_finalists.push(SimulateGame(winners[i][1], winners[i + 1][0]));
+        }
         break;
       case 1:
         console.log("\n\n\tCetvrtfinale:\n");
